@@ -1,0 +1,468 @@
+/* ====================================
+   CANINE CARE CENTRAL - MAIN STYLESHEET
+   project.css
+   ==================================== */
+
+/* CSS RESET - Normalize default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ====================================
+   ROOT VARIABLES - Colors and Fonts
+   ==================================== */
+:root {
+    /* Color Palette */
+    --primary-color: #2c5f2d;
+    --primary-dark: #1a3a1b;
+    --primary-light: #4a8f4c;
+    --accent-color: #f4a460;
+    --accent-light: #ffd4a3;
+    --text-dark: #2d2d2d;
+    --text-medium: #555555;
+    --text-light: #777777;
+    --bg-light: #f8f9fa;
+    --bg-white: #ffffff;
+    --border-color: #e0e0e0;
+    
+    /* Typography */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-headings: 'Georgia', serif;
+    
+    /* Spacing - Using the CSS Box Model */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Layout */
+    --max-width: 1200px;
+    --border-radius: 8px;
+}
+
+/* ====================================
+   BASE STYLES - Body and Typography
+   ==================================== */
+body {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-headings);
+    line-height: 1.3;
+    margin-bottom: var(--spacing-sm);
+    color: var(--primary-dark);
+}
+
+h1 { font-size: 2.5rem; margin-bottom: var(--spacing-md); }
+h2 { font-size: 2rem; margin-bottom: var(--spacing-md); }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+
+/* Paragraphs */
+p {
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Links - with pseudo-classes for interactivity */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--primary-light);
+    text-decoration: underline;
+}
+
+a:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+a:visited {
+    color: var(--primary-dark);
+}
+
+/* Lists */
+ul, ol {
+    margin-left: 1.5rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Images - width and height configuration */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ====================================
+   HEADER SECTION - Fixed positioning
+   ==================================== */
+.site-header {
+    background-color: var(--bg-white);
+    border-bottom: 3px solid var(--primary-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--spacing-sm) var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.logo {
+    font-family: var(--font-headings);
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.logo:hover {
+    text-decoration: none;
+    color: var(--primary-dark);
+}
+
+/* Navigation - Unordered list with float clearing */
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.main-nav li {
+    margin: 0;
+}
+
+.main-nav a {
+    display: block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    color: var(--text-dark);
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: all 0.3s;
+}
+
+/* CSS Pseudo-classes for link interactivity */
+.main-nav a:hover {
+    background-color: var(--primary-light);
+    color: var(--bg-white);
+    text-decoration: none;
+}
+
+.main-nav a:active {
+    background-color: var(--primary-dark);
+}
+
+.main-nav a.current {
+    background-color: var(--primary-color);
+    color: var(--bg-white);
+}
+
+.mobile-menu-toggle {
+    display: none;
+}
+
+.section-intro {
+    color: var(--text-medium);
+    font-size: 1.05rem;
+    max-width: 750px;
+    margin-bottom: var(--spacing-lg);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-bottom: var(--spacing-xl);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+ 
+.vaccine-table {
+    width: 75%;
+    margin: auto;
+    border-collapse: collapse;
+    background-color: var(--bg-white);
+    font-size: 0.95rem;
+    min-width: 600px;
+}
+ 
+.vaccine-table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xs);
+    font-style: italic;
+}
+ 
+.vaccine-table th,
+.vaccine-table td {
+    border: 1px solid var(--border-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    vertical-align: middle;
+}
+ 
+.vaccine-table thead tr {
+    background-color: var(--primary-color);
+    color: var(--bg-white);
+}
+ 
+.vaccine-table thead th {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    border-color: var(--primary-dark);
+}
+ 
+.vaccine-table tbody tr:nth-of-type(even) {
+    background-color: #f0f7f0;
+}
+ 
+.vaccine-table tbody tr:hover {
+    background-color: var(--accent-light);
+    transition: background-color 0.2s;
+}
+ 
+.vaccine-table tbody tr:first-of-type td {
+    font-weight: 500;
+}
+ 
+.vaccine-table tbody tr:last-of-type td {
+    border-bottom: 2px solid var(--primary-light);
+}
+ 
+.vaccine-table tfoot td {
+    background-color: var(--bg-light);
+    font-size: 0.875rem;
+    color: var(--text-medium);
+    border-top: 2px solid var(--primary-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+ 
+.badge {
+    display: inline-block;
+    padding: 0.2em 0.65em;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+ 
+.badge-core {
+    background-color: var(--primary-color);
+    color: var(--bg-white);
+}
+ 
+.badge-noncore {
+    background-color: var(--accent-light);
+    color: var(--primary-dark);
+    border: 1px solid var(--accent-color);
+}
+
+/* ====================================
+   CONTACT FORM - Layout
+   ==================================== */
+.form-section {
+    background: var(--bg-light);
+    padding: var(--spacing-xl) 0;
+}
+ 
+.form-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+}
+ 
+/* ====================================
+   CONTACT FORM - Sidebar
+   ==================================== */
+.form-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+ 
+.sidebar-card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    border-left: 4px solid var(--primary-color);
+}
+ 
+.sidebar-card h2 {
+    font-size: 1.4rem;
+    margin-bottom: var(--spacing-xs);
+}
+ 
+.sidebar-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-sm);
+}
+ 
+.sidebar-card p {
+    color: var(--text-medium);
+    font-size: 0.95rem;
+    margin: 0;
+}
+ 
+.sidebar-icon {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-xs);
+}
+ 
+.help-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+ 
+.help-list li {
+    font-size: 0.9rem;
+    color: var(--text-medium);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+ 
+.help-list li:last-child {
+    border-bottom: none;
+}
+ 
+.sidebar-note {
+    border-left-color: var(--accent-color);
+    background: #fff8f0;
+}
+ 
+.sidebar-note p {
+    font-size: 0.875rem;
+}
+ 
+/* ====================================
+   CONTACT FORM - The Form Itself
+   ==================================== */
+.form-wrapper {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xl);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.09);
+}
+ 
+.form-heading {
+    font-size: 1.8rem;
+    color: var(--primary-dark);
+    margin-bottom: var(--spacing-xs);
+}
+ 
+.form-subheading {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: var(--spacing-lg);
+}
+ 
+/* Two-column row for paired fields */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+ 
+/* Individual field group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-md);
+}
+ 
+/* Labels */
+.form-group label,
+.form-fieldset legend {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.01em;
+}
+ 
+/* Text inputs and select */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.65rem var(--spacing-sm);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background-color: var(--bg-light);
+    transition: border-color 0.25s, box-shadow 0.25s, background-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+}
+ 
+/* Select arrow indicator */
+.contact-form select {
+    background-repeat: no-repeat;
+    background-position: right 0.9rem center;
+    padding-right: 2.2rem;
+    cursor: pointer;
+}
+ 
+/* Textarea */
+.contact-form textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+}
+ 
+/* Focus styles */
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-light);
+    background-color: var(--bg-white);
+    box-shadow: 0 0 0 3px rgba(74, 143, 76, 0.15);
+}
+ 
+/* Placeholder color */
+.contact-form ::placeholder {
+    color: #b0b0b0;
+    font-style: italic;
+}
+ 
+/* Field hint text */
+.field-hint {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-top: 0.35rem;
+    font-style: italic;
+}
