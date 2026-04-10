@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Canine Care Central with your dog care questions, 
+    breed inquiries, or general feedback.">
+    <title>Contact Us | Canine Care Central</title>
+    <link rel="stylesheet" href="project.css">
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+ 
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Canine Care Central</a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="health.html">Health</a></li>
+                    <li><a href="training.html">Training</a></li>
+                    <li><a href="lifestyle.html">Lifestyle</a></li>
+                    <li><a href="breeds.html">Breeds</a></li>
+                    <li><a href="contact.html" class="current" aria-current="page">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false"></button>
+        </div>
+    </header>
+ 
+    <main id="main-content">
+ 
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Contact Us</h1>
+                <p>Have a question about your dog's health, training, or finding the right breed? We'd 
+                    love to hear from you.</p>
+            </div>
+        </section>
+ 
+        <!-- Form Section -->
+        <section class="form-section">
+            <div class="container">
+                <div class="form-layout">
+ 
+                    <!-- Sidebar Info -->
+                    <aside class="form-sidebar">
+                        <div class="sidebar-card">
+                            <div class="sidebar-icon" aria-hidden="true"></div>
+                            <h2>Get in Touch</h2>
+                            <p>Our team of dog care experts typically responds within <strong>1-2 business days</strong>.</p>
+                        </div>
+ 
+                        <div class="sidebar-card">
+                            <h3>What We Can Help With</h3>
+                            <ul class="help-list">
+                                <li> Health &amp; nutrition questions</li>
+                                <li> Training &amp; behavior advice</li>
+                                <li> Breed recommendations</li>
+                                <li> Travel &amp; lifestyle tips</li>
+                                <li> Article suggestions</li>
+                                <li> General feedback</li>
+                            </ul>
+                        </div>
+ 
+                    <!-- The Form -->
+                    <div class="form-wrapper">
+                        <form
+                            method="post"
+                            action="https://webdevbasics.net/scripts/demo.php"
+                            class="contact-form"
+                            novalidate
+                        >
+                            <h2 class="form-heading">Send Us a Message</h2>
+                            <p class="form-subheading">Fields marked with <span class="required-star" aria-hidden="true">*</span> are required.</p>
+ 
+                            <!-- Name & Email Row -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="full-name">Full Name <span class="required-star" aria-label="required">*</span></label>
+                                    <input
+                                        type="text"
+                                        id="full-name"
+                                        name="full_name"
+                                        placeholder=""
+                                        required
+                                        autocomplete="name"
+                                    >
+                                </div>
+ 
+                                <div class="form-group">
+                                    <label for="email">Email Address <span class="required-star" aria-label="required">*</span></label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        placeholder="you@example.com"
+                                        required
+                                        autocomplete="email"
+                                    >
+                                </div>
+                            </div>
+ 
+                            <!-- Dog's Name & Topic Row -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dog-name">Your Dog's Name <span class="optional-label">(optional)</span></label>
+                                    <input
+                                        type="text"
+                                        id="dog-name"
+                                        name="dog_name"
+                                        placeholder=""
+                                        autocomplete="off"
+                                    >
+                                </div>
+ 
+                                <div class="form-group">
+                                    <label for="topic">Topic <span class="required-star" aria-label="required">*</span></label>
+                                    <select id="topic" name="topic" required>
+                                        <option value="" disabled selected>Select a topic…</option>
+                                        <option value="health">Health &amp; Nutrition</option>
+                                        <option value="training">Training &amp; Behavior</option>
+                                        <option value="breeds">Breed Recommendation</option>
+                                        <option value="lifestyle">Lifestyle &amp; Gear</option>
+                                        <option value="adoption">Adoption Advice</option>
+                                        <option value="feedback">Site Feedback</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+ 
+                            <!-- Message -->
+                            <div class="form-group">
+                                <label for="message">Your Message <span class="required-star" aria-label="required">*</span></label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    rows="6"
+                                    placeholder="Tell us about your dog and how we can help…"
+                                    required
+                                ></textarea>
+                                <span class="field-hint">Please be as specific as possible so we can give you the best advice.</span>
+                            </div>
+ 
+                            <!-- How Did You Hear -->
+                            <fieldset class="form-fieldset">
+                                <legend>How did you find us? <span class="optional-label">(optional)</span></legend>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="referral" value="search">
+                                        <span>Search Engine</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="referral" value="social">
+                                        <span>Social Media</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="referral" value="friend">
+                                        <span>Friend or Family</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="referral" value="vet">
+                                        <span>Veterinarian</span>
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="referral" value="other">
+                                        <span>Other</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+ 
+                            <!-- Newsletter Checkbox -->
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="newsletter" value="yes">
+                                    <span>Sign me up for the Canine Care Central newsletter — monthly tips, breed spotlights, and expert advice.</span>
+                                </label>
+                            </div>
+ 
+                            <!-- Submit -->
+                            <div class="form-actions">
+                                <button type="submit" class="submit-btn">
+                                    <span>Send Message</span>
+                                    <span class="btn-icon" aria-hidden="true">🐾</span>
+                                </button>
+                                <button type="reset" class="reset-btn">Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+ 
+                </div>
+            </div>
+        </section>
+ 
+    </main>
+ 
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="about.html">Our Mission</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="guides.html">Training Guides</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Canine Care Central | <a href="privacy.html">Privacy Policy</a> | 
+                <a href="terms.html">Terms of Service</a> | Last Updated: April 2026</p>
+        </div>
+    </footer>
+ 
+    <script>
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const mainNav = document.querySelector('.main-nav');
+ 
+        if (menuToggle) {
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                const isExpanded = mainNav.classList.contains('active');
+                menuToggle.setAttribute('aria-expanded', isExpanded);
+            });
+        }
+    </script>
+</body>
+</html>
