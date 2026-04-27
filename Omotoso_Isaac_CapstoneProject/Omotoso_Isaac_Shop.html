@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shop dog care products at Canine Care Central.">
+    <title>Shop | Canine Care Central</title>
+    <link rel="stylesheet" href="Omotoso_Isaac_Styles.css">
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+        .product-card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-img {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        .product-body {
+            padding: var(--spacing-md);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-category {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--primary-light);
+            margin-bottom: 0.3rem;
+        }
+        .product-name {
+            font-family: var(--font-headings);
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: var(--spacing-xs);
+        }
+        .product-desc {
+            font-size: 0.875rem;
+            color: var(--text-medium);
+            flex: 1;
+            margin-bottom: var(--spacing-sm);
+        }
+        .product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .add-btn {
+            background: var(--primary-color);
+            color: var(--bg-white);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .add-btn:hover { background: var(--primary-dark); }
+        .cart-bar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--primary-dark);
+            color: var(--bg-white);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        .cart-bar.visible { transform: translateY(0); }
+        .cart-bar span { font-weight: 600; }
+        .checkout-btn {
+            background: var(--accent-color);
+            color: var(--primary-dark);
+            border: none;
+            border-radius: var(--border-radius);
+            padding: 0.5rem 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+ 
+    <header class="site-header">
+        <div class="header-container">
+            <a href="index.html" class="logo">Canine Care Central</a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Omotoso_Isaac_Health.html">Health</a></li>
+                    <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
+                    <li><a href="Omotoso_Isaac_Lifestyle.html">Lifestyle</a></li>
+                    <li><a href="Omotoso_Isaac_Breeds.html">Breeds</a></li>
+                    <li><a href="Omotoso_Isaac_Shop.html" class="current" aria-current="page">Shop</a></li>
+                    <li><a href="Omotoso_Isaac_Contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false"></button>
+        </div>
+    </header>
+ 
+    <main id="main-content">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Shop</h1>
+                <p>Vet-recommended products for your dog's health, training, and lifestyle.</p>
+            </div>
+        </section>
+ 
+        <section class="container" style="padding: var(--spacing-xl) var(--spacing-md);">
+            <h2 class="section-title">Products</h2>
+            <div class="product-grid">
+ 
+                <div class="product-card">
+                    <div class="product-img" style="background:#e8f5e9;">💊</div>
+                    <div class="product-body">
+                        <p class="product-category">Health</p>
+                        <h3 class="product-name">Daily Multivitamins</h3>
+                        <p class="product-desc">Supports joints, immunity, and coat health. Chicken flavored.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$24.99</span>
+                            <button class="add-btn" data-price="24.99">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="product-card">
+                    <div class="product-img" style="background:#fff3e0;">🎯</div>
+                    <div class="product-body">
+                        <p class="product-category">Training</p>
+                        <h3 class="product-name">Clicker Training Kit</h3>
+                        <p class="product-desc">Clicker plus a 30-page positive reinforcement guide.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$12.99</span>
+                            <button class="add-btn" data-price="12.99">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="product-card">
+                    <div class="product-img" style="background:#f3e5f5;">🦴</div>
+                    <div class="product-body">
+                        <p class="product-category">Treats</p>
+                        <h3 class="product-name">Natural Training Treats</h3>
+                        <p class="product-desc">Low-calorie single-ingredient chicken treats. Great for training.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$16.99</span>
+                            <button class="add-btn" data-price="16.99">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="product-card">
+                    <div class="product-img" style="background:#e3f2fd;">🧸</div>
+                    <div class="product-body">
+                        <p class="product-category">Gear</p>
+                        <h3 class="product-name">Puzzle Feeder Ball</h3>
+                        <p class="product-desc">Keeps dogs mentally stimulated. Dishwasher safe.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$19.99</span>
+                            <button class="add-btn" data-price="19.99">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="product-card">
+                    <div class="product-img" style="background:#fce4ec;">🥩</div>
+                    <div class="product-body">
+                        <p class="product-category">Food</p>
+                        <h3 class="product-name">Grain-Free Puppy Kibble</h3>
+                        <p class="product-desc">High-protein salmon &amp; sweet potato formula. 5 lb bag.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$34.99</span>
+                            <button class="add-btn" data-price="34.99">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="product-card">
+                    <div class="product-img" style="background:#e0f7fa;">🛏️</div>
+                    <div class="product-body">
+                        <p class="product-category">Gear</p>
+                        <h3 class="product-name">Orthopedic Dog Bed</h3>
+                        <p class="product-desc">Memory foam with washable cover. Great for senior dogs.</p>
+                        <div class="product-footer">
+                            <span class="product-price">$69.99</span>
+                            <button class="add-btn" data-price="69.99">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+ 
+            </div>
+        </section>
+    </main>
+ 
+    <div class="cart-bar" id="cartBar">
+        <span id="cartInfo">🛒 0 items — $0.00</span>
+        <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+ 
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>About Us</h3>
+                <ul><li><a href="about.html">Our Mission</a></li></ul>
+            </div>
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="guides.html">Training Guides</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Canine Care Central | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+        </div>
+    </footer>
+ 
+    <script>
+        let count = 0, total = 0;
+ 
+        document.querySelectorAll('.add-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                count++;
+                total += parseFloat(btn.dataset.price);
+                document.getElementById('cartInfo').textContent =
+                    '🛒 ' + count + ' item' + (count !== 1 ? 's' : '') + ' — $' + total.toFixed(2);
+                document.getElementById('cartBar').classList.add('visible');
+                btn.textContent = '✓ Added';
+                btn.disabled = true;
+            });
+        });
+ 
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            alert('Thank you for your order!');
+            count = 0; total = 0;
+            document.getElementById('cartBar').classList.remove('visible');
+            document.querySelectorAll('.add-btn').forEach(b => { b.textContent = 'Add to Cart'; b.disabled = false; });
+        });
+ 
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const mainNav = document.querySelector('.main-nav');
+        if (menuToggle) menuToggle.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('active'));
+        });
+    </script>
+</body>
+</html>
