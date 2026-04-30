@@ -1,224 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Comprehensive health and wellness resources for dogs including 
-    nutrition, preventive care, and common health issues.">
-    <title>Health & Wellness | Canine Care Central</title>
-    <link rel="stylesheet" href="Omotoso_Isaac_Styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Keep your dog healthy with vet-approved guides on nutrition, vaccinations, dental care, exercise needs, and senior dog wellness — all in one place.">
+  <title>Health & Wellness | Canine Care Central</title>
+  <link rel="stylesheet" href="Omotoso_Isaac_Styles.css">
+  <style>
+    .calculator-section {
+      background: linear-gradient(135deg, #f0f7f0 0%, #e8f5e8 100%);
+      border-top: 4px solid var(--primary-color);
+      border-bottom: 4px solid var(--primary-color);
+      padding: var(--spacing-xl) 0;
+    }
+    .calculator-section .section-title { text-align: center; }
+    .calculator-intro { text-align: center; color: var(--text-medium); max-width: 600px; margin: 0 auto var(--spacing-lg); }
+    .calc-card {
+      background: var(--bg-white);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(44,95,45,0.12);
+      max-width: 680px;
+      margin: 0 auto;
+      padding: var(--spacing-xl);
+    }
+    .calc-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-lg); }
+    .calc-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .calc-group label { font-weight: 600; font-size: 0.9rem; color: var(--text-dark); }
+    .calc-group input[type="number"] {
+      padding: 0.65rem var(--spacing-sm);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 1.1rem;
+      font-family: var(--font-primary);
+      color: var(--text-dark);
+      background: var(--bg-light);
+      transition: border-color 0.25s, box-shadow 0.25s;
+      width: 100%;
+    }
+    .calc-group input[type="number"]::-webkit-outer-spin-button,
+    .calc-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .calc-group input[type="number"]:focus,
+    .calc-group select:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(74,143,76,0.15);
+    }
+    .calc-group select {
+      padding: 0.65rem var(--spacing-sm);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-family: var(--font-primary);
+      color: var(--text-dark);
+      background: var(--bg-light);
+      cursor: pointer;
+      transition: border-color 0.25s;
+      appearance: none;
+    }
+    .calc-btn {
+      display: block; width: 100%; padding: 0.85rem;
+      background: var(--primary-color); color: var(--bg-white);
+      border: none; border-radius: var(--border-radius);
+      font-size: 1.05rem; font-weight: 700; cursor: pointer;
+      letter-spacing: 0.03em;
+      transition: background 0.2s, transform 0.15s;
+      margin-bottom: var(--spacing-lg);
+    }
+    .calc-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .calc-btn:active { transform: translateY(0); }
+    .calc-result {
+      display: none;
+      border-radius: var(--border-radius);
+      padding: var(--spacing-md) var(--spacing-lg);
+      text-align: center;
+      animation: resultPop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+    .calc-result.visible { display: block; }
+    @keyframes resultPop {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .calc-result.young  { background: #e8f8e8; border: 2px solid var(--primary-light); }
+    .calc-result.adult  { background: #fff3e0; border: 2px solid var(--accent-color); }
+    .calc-result.senior { background: #fce4ec; border: 2px solid #e91e63; }
+    .result-age { font-size: 3.5rem; font-family: var(--font-headings); font-weight: bold; line-height: 1; margin-bottom: 0.25rem; color: var(--primary-dark); }
+    .result-label { font-size: 1rem; color: var(--text-medium); margin-bottom: var(--spacing-sm); }
+    .result-tip { font-size: 0.9rem; color: var(--text-dark); background: rgba(255,255,255,0.6); border-radius: 8px; padding: var(--spacing-sm); margin: 0; }
+    .calc-error { display: none; color: #c0392b; font-size: 0.875rem; font-weight: 500; text-align: center; margin-top: var(--spacing-xs); }
+    .calc-error.visible { display: block; }
+    .life-stage-bar { display: none; margin-top: var(--spacing-md); }
+    .life-stage-bar.visible { display: block; }
+    .stage-track { height: 12px; background: var(--border-color); border-radius: 999px; overflow: hidden; margin-bottom: 0.3rem; }
+    .stage-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--primary-light), var(--accent-color)); width: 0%; transition: width 0.8s ease; }
+    .stage-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-light); }
+    @media (max-width: 600px) {
+      .calc-inputs { grid-template-columns: 1fr; }
+      .calc-card { padding: var(--spacing-md); }
+      .result-age { font-size: 2.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    
-    <header class="site-header">
-        <div class="header-container">
-            <a href="index.html" class="logo">Canine Care Central</a>
-            <nav class="main-nav" aria-label="Main navigation">
-                <ul>
-                    <li><a href="index.html" class="current">Home</a></li>
-                    <li><a href="Omotoso_Isaac_Health.html">Health</a></li>
-                    <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
-                    <li><a href="Omotoso_Isaac_Lifestyle.html">Lifestyle</a></li>
-                    <li><a href="Omotoso_Isaac_Breeds.html">Breeds</a></li>
-                    <li><a href="Omotoso_Isaac_Shop.html">Shop</a></li>
-                    <li><a href="Omotoso_Isaac_Contact.html" class="current" aria-current="page">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    
-    <nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+ 
+  <header class="site-header">
+    <div class="header-container">
+      <a href="index.html" class="logo">Canine Care Central</a>
+      <nav class="main-nav" aria-label="Main navigation">
         <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><span>Health & Wellness</span></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="Omotoso_Isaac_Health.html" class="current" aria-current="page">Health</a></li>
+          <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
+          <li><a href="Omotoso_Isaac_Lifestyle.html">Lifestyle</a></li>
+          <li><a href="Omotoso_Isaac_Breeds.html">Breeds</a></li>
+          <li><a href="Omotoso_Isaac_Shop.html">Shop</a></li>
+          <li><a href="Omotoso_Isaac_Contact.html">Contact</a></li>
         </ul>
-    </nav>
-    
-    <main id="main-content">
-        <!-- Category Hero -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Health & Wellness</h1>
-                <p>Expert guidance for keeping your dog healthy, happy, and thriving at every life stage.</p>
-            </div>
-        </section>
-        
-        <!-- Vaccination Schedule Table -->
-        <div class="container">
-            <h2 class="section-title">Dog Vaccination Schedule</h2>
-            <p class="section-intro">Stay on top of your dog's immunizations with this quick-reference 
-                guide. Always consult your veterinarian to tailor a schedule for your dog's specific needs.</p>
+      </nav>
+    </div>
+  </header>
  
-            <div class="table-wrapper">
-                <table class="vaccine-table" aria-describedby="vaccine-table-desc">
-                    <caption id="vaccine-table-desc">
-                        Recommended core and non-core vaccinations for dogs by life stage
-                    </caption>
-                    <thead>
-                        <tr>
-                            <th scope="col">Vaccine</th>
-                            <th scope="col">Life Stage</th>
-                            <th scope="col">Initial Series</th>
-                            <th scope="col">Booster</th>
-                            <th scope="col">Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Distemper / Parvovirus (DA2PP)</td>
-                            <td>Puppy</td>
-                            <td>6-8 weeks, then every 3-4 weeks until 16 weeks</td>
-                            <td>1 year later, then every 3 years</td>
-                            <td><span class="badge badge-core">Core</span></td>
-                        </tr>
-                        <tr>
-                            <td>Rabies</td>
-                            <td>Puppy / Adult</td>
-                            <td>12-16 weeks old</td>
-                            <td>1 year later, then every 1-3 years</td>
-                            <td><span class="badge badge-core">Core</span></td>
-                        </tr>
-                        <tr>
-                            <td>Bordetella (Kennel Cough)</td>
-                            <td>Puppy / Adult</td>
-                            <td>As early as 8 weeks</td>
-                            <td>Every 6-12 months</td>
-                            <td><span class="badge badge-noncore">Non-Core</span></td>
-                        </tr>
-                        <tr>
-                            <td>Leptospirosis</td>
-                            <td>Puppy / Adult</td>
-                            <td>2 doses, 3-4 weeks apart</td>
-                            <td>Annually</td>
-                            <td><span class="badge badge-noncore">Non-Core</span></td>
-                        </tr>
-                        <tr>
-                            <td>Lyme Disease</td>
-                            <td>Puppy / Adult</td>
-                            <td>2 doses, 2-4 weeks apart</td>
-                            <td>Annually</td>
-                            <td><span class="badge badge-noncore">Non-Core</span></td>
-                        </tr>
-                        <tr>
-                            <td>Canine Influenza (H3N2 / H3N8)</td>
-                            <td>Adult</td>
-                            <td>2 doses, 2-4 weeks apart</td>
-                            <td>Annually</td>
-                            <td><span class="badge badge-noncore">Non-Core</span></td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5"><strong>Note:</strong> Core vaccines are recommended for all dogs regardless of lifestyle. Non-core vaccines are recommended based on geographic location, lifestyle, and risk factors. Speak with your vet to determine the best plan for your pet.</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><span>Health & Wellness</span></li>
+    </ul>
+  </nav>
  
-        <!-- Category Content -->
-        <div class="container">
-            <h2 class="section-title">Featured Health Articles</h2>
-            
-            <div class="content-grid">
-                <article class="content-card">
-                    <img src="images/health-article.jpg" alt="Veterinarian examining a dog" class="content-image">
-                    <div class="content-body">
-                        <h3><a href="article.html">Understanding Common Dog Health Issues</a></h3>
-                        <p class="content-meta">
-                            <span>March 5, 2026</span> | <span>8 min read</span>
-                        </p>
-                        <p class="content-excerpt">Learn to recognize common health problems in dogs and when to seek veterinary care for your furry friend.</p>
-                    </div>
-                </article>
-                
-                <article class="content-card">
-                    <img src="images/nutrition.jpg" alt="Dog food bowl with fresh ingredients" class="content-image">
-                    <div class="content-body">
-                        <h3><a href="dog-nutrition.html">Complete Dog Nutrition Guide</a></h3>
-                        <p class="content-meta">
-                            <span>March 3, 2026</span> | <span>12 min read</span>
-                        </p>
-                        <p class="content-excerpt">Everything you need to know about feeding your dog a balanced, nutritious diet for optimal health.</p>
-                    </div>
-                </article>
-                
-                <article class="content-card">
-                    <img src="images/vaccination.jpg" alt="Puppy receiving vaccination" class="content-image">
-                    <div class="content-body">
-                        <h3><a href="vaccination-schedule.html">Vaccination Schedule Guide</a></h3>
-                        <p class="content-meta">
-                            <span>February 28, 2026</span> | <span>6 min read</span>
-                        </p>
-                        <p class="content-excerpt">Essential vaccinations for puppies and adult dogs to protect against common diseases.</p>
-                    </div>
-                </article>
-                
-                <article class="content-card">
-                    <img src="images/dental-care.jpg" alt="Dog dental care" class="content-image">
-                    <div class="content-body">
-                        <h3><a href="dental-care.html">Dental Care for Dogs</a></h3>
-                        <p class="content-meta">
-                            <span>February 25, 2026</span> | <span>7 min read</span>
-                        </p>
-                        <p class="content-excerpt">Prevent dental disease with proper tooth brushing techniques and professional cleanings.</p>
-                    </div>
-                </article>
-                
-                <article class="content-card">
-                    <img src="images/exercise-thumb.jpg" alt="Dog running outdoors" class="content-image">
-                    <div class="content-body">
-                        <h3><a href="exercise-needs.html">Understanding Exercise Needs</a></h3>
-                        <p class="content-meta">
-                            <span>February 22, 2026</span> | <span>9 min read</span>
-                        </p>
-                        <p class="content-excerpt">How much exercise does your dog need? Find out based on breed, age, and health status.</p>
-                    </div>
-                </article>
-                
-                <article class="content-card">
-                    <img src="images/senior-thumb.jpg" alt="Happy senior dog" class="content-image">
-                    <div class="content-body">
-                        <h3><a href="senior-care.html">Senior Dog Care Tips</a></h3>
-                        <p class="content-meta">
-                            <span>February 20, 2026</span> | <span>10 min read</span>
-                        </p>
-                        <p class="content-excerpt">Special considerations for caring for aging dogs, from nutrition to mobility support.</p>
-                    </div>
-                </article>
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Health & Wellness</h1>
+        <p>Expert guidance for keeping your dog healthy, happy, and thriving at every life stage.</p>
+      </div>
+    </section>
+ 
+    <section class="calculator-section" aria-labelledby="calc-heading">
+      <div class="container">
+        <h2 class="section-title" id="calc-heading">🐾 Dog Age Calculator</h2>
+        <p class="calculator-intro">Ever wondered how old your dog is in human years? Enter their age and size below to find out — and get a life-stage care tip tailored just for them.</p>
+        <div class="calc-card">
+          <div class="calc-inputs">
+            <div class="calc-group">
+              <label for="dogAge">Your Dog's Age (in years)</label>
+              <input type="number" id="dogAge" name="dog_age" min="0" max="25" placeholder="e.g. 3" aria-describedby="calc-error">
             </div>
+            <div class="calc-group">
+              <label for="dogSize">Your Dog's Size</label>
+              <select id="dogSize" name="dog_size">
+                <option value="" disabled selected>Select size…</option>
+                <option value="small">Small (under 20 lbs)</option>
+                <option value="medium">Medium (20-50 lbs)</option>
+                <option value="large">Large (50-90 lbs)</option>
+                <option value="giant">Giant (over 90 lbs)</option>
+              </select>
+            </div>
+          </div>
+          <p class="calc-error" id="calc-error" role="alert"></p>
+          <button type="button" class="calc-btn" id="calcBtn">Calculate Human Age 🐕</button>
+          <div class="calc-result" id="calcResult" aria-live="polite" aria-atomic="true">
+            <p class="result-label">Your dog is approximately</p>
+            <p class="result-age" id="resultAge">—</p>
+            <p class="result-label">human years old</p>
+            <p class="result-tip" id="resultTip"></p>
+          </div>
+          <div class="life-stage-bar" id="lifeStageBar" aria-hidden="true">
+            <div class="stage-track"><div class="stage-fill" id="stageFill"></div></div>
+            <div class="stage-labels">
+              <span>Puppy</span><span>Junior</span><span>Adult</span><span>Mature</span><span>Senior</span>
+            </div>
+          </div>
         </div>
-    </main>
-    
-    <footer class="site-footer">
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h3>About Us</h3>
-                <ul>
-                    <li><a href="about.html">Our Mission</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Resources</h3>
-                <ul>
-                    <li><a href="guides.html">Training Guides</a></li>
-                    <li><a href="faq.html">FAQs</a></li>
-                </ul>
-            </div>
-            
-        <div class="footer-bottom">
-            <p>&copy; 2026 Canine Care Central | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a> | Last Updated: March 7, 2026</p>
-        </div>
-    </footer>
-    
-    <script>
-        const menuToggle = document.querySelector('.mobile-menu-toggle');
-        const mainNav = document.querySelector('.main-nav');
-        
-        menuToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-        });
-    </script>
+      </div>
+    </section>
+ 
+    <div class="container">
+      <h2 class="section-title">Dog Vaccination Schedule</h2>
+      <p class="section-intro">Stay on top of your dog's immunizations with this quick-reference guide. Always consult your veterinarian to tailor a schedule for your dog's specific needs.</p>
+      <div class="table-wrapper">
+        <table class="vaccine-table" aria-describedby="vaccine-table-desc">
+          <caption id="vaccine-table-desc">Recommended core and non-core vaccinations for dogs by life stage</caption>
+          <thead>
+            <tr>
+              <th scope="col">Vaccine</th>
+              <th scope="col">Life Stage</th>
+              <th scope="col">Initial Series</th>
+              <th scope="col">Booster</th>
+              <th scope="col">Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Distemper / Parvovirus (DA2PP)</td><td>Puppy</td><td>6-8 weeks, then every 3-4 weeks until 16 weeks</td><td>1 year later, then every 3 years</td><td><span class="badge badge-core">Core</span></td></tr>
+            <tr><td>Rabies</td><td>Puppy / Adult</td><td>12-16 weeks old</td><td>1 year later, then every 1-3 years</td><td><span class="badge badge-core">Core</span></td></tr>
+            <tr><td>Bordetella (Kennel Cough)</td><td>Puppy / Adult</td><td>As early as 8 weeks</td><td>Every 6-12 months</td><td><span class="badge badge-noncore">Non-Core</span></td></tr>
+            <tr><td>Leptospirosis</td><td>Puppy / Adult</td><td>2 doses, 3-4 weeks apart</td><td>Annually</td><td><span class="badge badge-noncore">Non-Core</span></td></tr>
+            <tr><td>Lyme Disease</td><td>Puppy / Adult</td><td>2 doses, 2-4 weeks apart</td><td>Annually</td><td><span class="badge badge-noncore">Non-Core</span></td></tr>
+            <tr><td>Canine Influenza (H3N2 / H3N8)</td><td>Adult</td><td>2 doses, 2-4 weeks apart</td><td>Annually</td><td><span class="badge badge-noncore">Non-Core</span></td></tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="5"><strong>Note:</strong> Core vaccines are recommended for all dogs regardless of lifestyle. Non-core vaccines are recommended based on geographic location, lifestyle, and risk factors. Speak with your vet to determine the best plan for your pet.</td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+ 
+    <div class="container">
+      <h2 class="section-title">Featured Health Articles</h2>
+      <div class="content-grid">
+        <article class="content-card">
+          <img src="images/health-article.jpg" alt="Veterinarian examining a dog" class="content-image">
+          <div class="content-body">
+            <h3><a href="article.html">Understanding Common Dog Health Issues</a></h3>
+            <p class="content-meta"><span>March 5, 2026</span> | <span>8 min read</span></p>
+            <p class="content-excerpt">Learn to recognize common health problems in dogs and when to seek veterinary care for your furry friend.</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <img src="images/nutrition.jpg" alt="Dog food bowl with fresh ingredients" class="content-image">
+          <div class="content-body">
+            <h3><a href="dog-nutrition.html">Complete Dog Nutrition Guide</a></h3>
+            <p class="content-meta"><span>March 3, 2026</span> | <span>12 min read</span></p>
+            <p class="content-excerpt">Everything you need to know about feeding your dog a balanced, nutritious diet for optimal health.</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <img src="images/vaccination.jpg" alt="Puppy receiving vaccination" class="content-image">
+          <div class="content-body">
+            <h3><a href="vaccination-schedule.html">Vaccination Schedule Guide</a></h3>
+            <p class="content-meta"><span>February 28, 2026</span> | <span>6 min read</span></p>
+            <p class="content-excerpt">Essential vaccinations for puppies and adult dogs to protect against common diseases.</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <img src="images/dental-care.jpg" alt="Dog dental care" class="content-image">
+          <div class="content-body">
+            <h3><a href="dental-care.html">Dental Care for Dogs</a></h3>
+            <p class="content-meta"><span>February 25, 2026</span> | <span>7 min read</span></p>
+            <p class="content-excerpt">Prevent dental disease with proper tooth brushing techniques and professional cleanings.</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <img src="images/exercise-thumb.jpg" alt="Dog running outdoors" class="content-image">
+          <div class="content-body">
+            <h3><a href="exercise-needs.html">Understanding Exercise Needs</a></h3>
+            <p class="content-meta"><span>February 22, 2026</span> | <span>9 min read</span></p>
+            <p class="content-excerpt">How much exercise does your dog need? Find out based on breed, age, and health status.</p>
+          </div>
+        </article>
+        <article class="content-card">
+          <img src="images/senior-thumb.jpg" alt="Happy senior dog" class="content-image">
+          <div class="content-body">
+            <h3><a href="senior-care.html">Senior Dog Care Tips</a></h3>
+            <p class="content-meta"><span>February 20, 2026</span> | <span>10 min read</span></p>
+            <p class="content-excerpt">Special considerations for caring for aging dogs, from nutrition to mobility support.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+ 
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-column">
+        <h3>About Us</h3>
+        <ul><li><a href="about.html">Our Mission</a></li></ul>
+      </div>
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="guides.html">Training Guides</a></li>
+          <li><a href="faq.html">FAQs</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Canine Care Central | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a> | Last Updated: March 7, 2026</p>
+    </div>
+  </footer>
+ 
+  <script>
+    const EXTRA_YEARS = { small: 4, medium: 5, large: 6, giant: 7 };
+    const MAX_LIFESPAN = { small: 16, medium: 14, large: 12, giant: 10 };
+    const TIPS = {
+      puppy:  '🐶 <strong>Puppy stage:</strong> Focus on socialisation, basic commands, and starting a vaccination schedule.',
+      junior: '🌱 <strong>Junior stage:</strong> Reinforce training and transition to adult food. Keep up dental hygiene.',
+      adult:  '💪 <strong>Adult stage:</strong> Maintain a balanced diet, regular exercise, and annual vet visits.',
+      mature: '🍂 <strong>Mature stage:</strong> Consider senior formula food and bi-annual vet check-ups.',
+      senior: '❤️ <strong>Senior stage:</strong> Prioritise comfort, joint health, and gentle exercise. Vet visits every 6 months.'
+    };
+ 
+    function convertDogAge(y, size) {
+      if (y <= 0) return 0;
+      if (y === 1) return 15;
+      if (y === 2) return 24;
+      return Math.round(24 + EXTRA_YEARS[size] * (y - 2));
+    }
+ 
+    function getLifeStage(y, size) {
+      const pct = Math.min((y / MAX_LIFESPAN[size]) * 100, 100);
+      const stage = pct <= 15 ? 'puppy' : pct <= 35 ? 'junior' : pct <= 60 ? 'adult' : pct <= 80 ? 'mature' : 'senior';
+      return { stage, pct };
+    }
+ 
+    document.getElementById('calcBtn').addEventListener('click', function() {
+      const ageInput = document.getElementById('dogAge');
+      const sizeInput = document.getElementById('dogSize');
+      const errorEl = document.getElementById('calc-error');
+      const resultEl = document.getElementById('calcResult');
+      const barEl = document.getElementById('lifeStageBar');
+      const fillEl = document.getElementById('stageFill');
+      const dogYears = parseFloat(ageInput.value);
+      const size = sizeInput.value;
+ 
+      errorEl.classList.remove('visible');
+      resultEl.classList.remove('visible', 'young', 'adult', 'senior');
+      barEl.classList.remove('visible');
+ 
+      if (!ageInput.value || isNaN(dogYears) || dogYears < 0 || dogYears > 25) {
+        errorEl.textContent = 'Please enter a valid dog age between 0 and 25 years.';
+        errorEl.classList.add('visible');
+        return;
+      }
+      if (!size) {
+        errorEl.textContent = "Please select your dog's size.";
+        errorEl.classList.add('visible');
+        return;
+      }
+ 
+      const humanAge = convertDogAge(dogYears, size);
+      const { stage, pct } = getLifeStage(dogYears, size);
+      document.getElementById('resultAge').textContent = humanAge;
+      document.getElementById('resultTip').innerHTML = TIPS[stage];
+ 
+      const colorMap = { puppy: 'young', junior: 'young', adult: 'adult', mature: 'adult', senior: 'senior' };
+      resultEl.classList.add('visible', colorMap[stage]);
+ 
+      barEl.classList.add('visible');
+      fillEl.style.width = '0%';
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() { fillEl.style.width = pct + '%'; });
+      });
+    });
+ 
+    document.getElementById('dogAge').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('calcBtn').click();
+    });
+ 
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', function() { mainNav.classList.toggle('active'); });
+    }
+  </script>
 </body>
 </html>
