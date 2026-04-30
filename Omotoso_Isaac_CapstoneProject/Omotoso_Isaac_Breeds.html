@@ -1,204 +1,429 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Comprehensive dog breed information and adoption resources.">
-    <title>Breeds & Adoption | Canine Care Central</title>
-    <link rel="stylesheet" href="Omotoso_Isaac_Styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find your perfect dog breed with our in-depth profiles, adoption checklists, and family-friendly breed recommendations tailored to your lifestyle.">
+  <title>Breeds & Adoption | Canine Care Central</title>
+  <link rel="stylesheet" href="Omotoso_Isaac_Styles.css">
+  <style>
+    .quiz-section {
+      background: linear-gradient(135deg, #1a3a1b 0%, #2c5f2d 100%);
+      color: var(--bg-white);
+      padding: var(--spacing-xl) 0;
+    }
+    .quiz-section .section-title { color: var(--bg-white); text-align: center; }
+    .quiz-section .section-title::after {
+      content: ''; display: block; width: 60px; height: 3px;
+      background: var(--accent-color); margin: var(--spacing-xs) auto 0; border-radius: 2px;
+    }
+    .quiz-intro { text-align: center; color: rgba(255,255,255,0.82); max-width: 580px; margin: 0 auto var(--spacing-lg); }
+    .quiz-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 16px; max-width: 700px;
+      margin: 0 auto; padding: var(--spacing-xl);
+      backdrop-filter: blur(4px);
+    }
+    .quiz-progress-wrap { margin-bottom: var(--spacing-lg); }
+    .quiz-progress-label { font-size: 0.8rem; color: rgba(255,255,255,0.6); margin-bottom: 0.35rem; display: flex; justify-content: space-between; }
+    .quiz-progress-track { height: 6px; background: rgba(255,255,255,0.15); border-radius: 999px; overflow: hidden; }
+    .quiz-progress-fill { height: 100%; background: var(--accent-color); border-radius: 999px; width: 0%; transition: width 0.5s ease; }
+    .quiz-question { display: none; animation: fadeQ 0.35s ease; }
+    .quiz-question.active { display: block; }
+    @keyframes fadeQ {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    .quiz-question h3 { color: var(--bg-white); font-size: 1.3rem; margin-bottom: var(--spacing-md); line-height: 1.4; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm); }
+    .quiz-option {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid rgba(255,255,255,0.2);
+      border-radius: var(--border-radius);
+      color: var(--bg-white); padding: var(--spacing-sm) var(--spacing-md);
+      font-size: 0.95rem; font-family: var(--font-primary);
+      cursor: pointer; text-align: left;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s; line-height: 1.4;
+    }
+    .quiz-option:hover { background: rgba(255,255,255,0.2); border-color: var(--accent-color); transform: translateY(-2px); }
+    .quiz-option.selected { background: var(--accent-color); border-color: var(--accent-color); color: var(--primary-dark); font-weight: 600; transform: none; }
+    .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: var(--spacing-lg); gap: var(--spacing-sm); }
+    .quiz-back-btn, .quiz-next-btn {
+      padding: 0.65rem var(--spacing-lg); border-radius: var(--border-radius);
+      font-size: 0.95rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, transform 0.15s; border: 2px solid transparent;
+    }
+    .quiz-back-btn { background: transparent; border-color: rgba(255,255,255,0.4); color: rgba(255,255,255,0.8); }
+    .quiz-back-btn:hover { border-color: var(--bg-white); color: var(--bg-white); }
+    .quiz-back-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .quiz-next-btn { background: var(--accent-color); color: var(--primary-dark); border-color: var(--accent-color); }
+    .quiz-next-btn:hover:not(:disabled) { background: #e8943a; transform: translateY(-1px); }
+    .quiz-next-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .quiz-step-indicator { font-size: 0.85rem; color: rgba(255,255,255,0.55); }
+    .quiz-results { display: none; animation: fadeQ 0.4s ease; }
+    .quiz-results.visible { display: block; }
+    .results-heading { color: var(--accent-color); text-align: center; font-size: 1.1rem; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: var(--spacing-xs); }
+    .results-title { color: var(--bg-white); font-size: 1.8rem; text-align: center; margin-bottom: var(--spacing-sm); }
+    .results-description { color: rgba(255,255,255,0.82); text-align: center; font-size: 0.95rem; margin-bottom: var(--spacing-lg); max-width: 520px; margin-left: auto; margin-right: auto; }
+    .breed-matches { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--spacing-sm); margin-bottom: var(--spacing-lg); }
+    .breed-match-card { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: var(--border-radius); padding: var(--spacing-sm); text-align: center; }
+    .breed-match-emoji { font-size: 2rem; display: block; margin-bottom: 0.3rem; }
+    .breed-match-name { color: var(--bg-white); font-size: 0.9rem; font-weight: 600; display: block; margin-bottom: 0.2rem; }
+    .breed-match-trait { color: var(--accent-color); font-size: 0.75rem; font-weight: 500; }
+    .quiz-restart-btn {
+      display: block; margin: 0 auto;
+      background: transparent; border: 2px solid rgba(255,255,255,0.4);
+      color: rgba(255,255,255,0.8); padding: 0.6rem var(--spacing-lg);
+      border-radius: var(--border-radius); font-size: 0.9rem;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .quiz-restart-btn:hover { border-color: var(--bg-white); color: var(--bg-white); }
+    @media (max-width: 600px) {
+      .quiz-options  { grid-template-columns: 1fr; }
+      .breed-matches { grid-template-columns: 1fr 1fr; }
+      .quiz-card     { padding: var(--spacing-md); }
+    }
+  </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <header class="site-header">
-        <div class="container">
-            <div class="header-container">
-                <div class="site-logo">
-                    <span class="logo-icon" aria-hidden="true">🐾</span>
-                    <h1>Canine <span>Care Central</span></h1>
-                </div>
-                <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false"></button>
-                <nav class="main-nav" aria-label="Main navigation">
-                    <ul>
-                    <li><a href="index.html" class="current">Home</a></li>
-                    <li><a href="Omotoso_Isaac_Health.html">Health</a></li>
-                    <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
-                    <li><a href="Omotoso_Isaac_Lifestyle.html">Lifestyle</a></li>
-                    <li><a href="Omotoso_Isaac_Breeds.html">Breeds</a></li>
-                    <li><a href="Omotoso_Isaac_Shop.html">Shop</a></li>
-                    <li><a href="Omotoso_Isaac_Contact.html" class="current" aria-current="page">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+ 
+  <header class="site-header">
+    <div class="container">
+      <div class="header-container">
+        <div class="site-logo">
+          <span class="logo-icon" aria-hidden="true">🐾</span>
+          <h1>Canine <span>Care Central</span></h1>
         </div>
-    </header>
-    <main id="main-content">
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Breeds & Adoption</h1>
-                <p>Discover the perfect breed for your lifestyle and learn how to welcome a new dog into your family.</p>
+        <button class="menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false"></button>
+        <nav class="main-nav" aria-label="Main navigation">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Omotoso_Isaac_Health.html">Health</a></li>
+            <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
+            <li><a href="Omotoso_Isaac_Lifestyle.html">Lifestyle</a></li>
+            <li><a href="Omotoso_Isaac_Breeds.html" class="current" aria-current="page">Breeds</a></li>
+            <li><a href="Omotoso_Isaac_Shop.html">Shop</a></li>
+            <li><a href="Omotoso_Isaac_Contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+ 
+  <main id="main-content">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Breeds & Adoption</h1>
+        <p>Discover the perfect breed for your lifestyle and learn how to welcome a new dog into your family.</p>
+      </div>
+    </section>
+ 
+    <section class="quiz-section" aria-labelledby="quiz-heading">
+      <div class="container">
+        <h2 class="section-title" id="quiz-heading">🐾 Find Your Perfect Breed</h2>
+        <p class="quiz-intro">Answer four quick questions about your lifestyle and we'll suggest the breeds most likely to be your ideal match.</p>
+        <div class="quiz-card">
+          <div class="quiz-progress-wrap" id="quizProgressWrap">
+            <div class="quiz-progress-label">
+              <span id="progressText">Question 1 of 4</span>
+              <span id="progressPct">0%</span>
             </div>
-        </section>
-        <section class="featured-section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Breed & Adoption Resources</h2>
-                    <p>Everything you need to find your perfect match</p>
-                </div>
-                <div class="article-grid">
-                    <article class="article-card">
-                        <div class="article-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 200px;"></div>
-                        <div class="article-content">
-                            <span class="article-category">Breed Guide</span>
-                            <h3>Finding the Right Breed</h3>
-                            <p class="article-excerpt">Comprehensive guide to choosing a breed that matches your lifestyle, home, and family.</p>
-                            <a href="#" class="read-more">Read More</a>
-                        </div>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); height: 200px;"></div>
-                        <div class="article-content">
-                            <span class="article-category">Adoption</span>
-                            <h3>Adoption Checklist</h3>
-                            <p class="article-excerpt">Everything you need to prepare before bringing your new dog home.</p>
-                            <a href="#" class="read-more">Read More</a>
-                        </div>
-                    </article>
-                    <article class="article-card">
-                        <div class="article-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); height: 200px;"></div>
-                        <div class="article-content">
-                            <span class="article-category">Popular Breeds</span>
-                            <h3>Top Family-Friendly Breeds</h3>
-                            <p class="article-excerpt">Best dog breeds for families with children, including temperament and care requirements.</p>
-                            <a href="#" class="read-more">Read More</a>
-                        </div>
-                    </article>
-                </div>
+            <div class="quiz-progress-track">
+              <div class="quiz-progress-fill" id="progressFill"></div>
             </div>
-        </section>
-
-        <section class="gallery-section" aria-labelledby="gallery-heading">
-            <div class="container">
-                <h2 class="section-title" id="gallery-heading">Breed Spotlight</h2>
-                <p class="gallery-intro">Every dog breed has a unique personality, energy level, and set of care needs. Hover over any photo for a quick breed profile.</p>
+          </div>
  
-                <div class="gallery-grid">
- 
-                    <!-- Gallery Item 1 -->
-                    <figure class="gallery-item">
-                        <img
-                            src="images/breed-golden.jpg"
-                            alt="Golden Retriever sitting outdoors with a friendly expression"
-                        >
-                        <span class="gallery-tag">Family Favorite</span>
-                        <figcaption class="gallery-caption">
-                            <h4>Golden Retriever</h4>
-                            <p>Gentle, loyal, and endlessly patient — one of the best breeds for families with young children.</p>
-                        </figcaption>
-                    </figure>
- 
-                    <!-- Gallery Item 2 -->
-                    <figure class="gallery-item">
-                        <img
-                            src="images/breed-border-collie.jpg"
-                            alt="Border Collie in an alert herding stance in a green field"
-                        >
-                        <span class="gallery-tag">High Energy</span>
-                        <figcaption class="gallery-caption">
-                            <h4>Border Collie</h4>
-                            <p>Exceptionally intelligent and athletic — thrives with a job to do and an active owner to keep up.</p>
-                        </figcaption>
-                    </figure>
- 
-                    <!-- Gallery Item 3 -->
-                    <figure class="gallery-item">
-                        <img
-                            src="images/breed-bulldog.jpg"
-                            alt="English Bulldog relaxing on a couch looking calm and content"
-                        >
-                        <span class="gallery-tag">Low Energy</span>
-                        <figcaption class="gallery-caption">
-                            <h4>English Bulldog</h4>
-                            <p>Affectionate and low-maintenance on exercise — a great match for apartment living and calmer households.</p>
-                        </figcaption>
-                    </figure>
- 
-                    <!-- Gallery Item 4 -->
-                    <figure class="gallery-item">
-                        <img
-                            src="images/breed-lab.jpg"
-                            alt="Black Labrador Retriever playing fetch in a lake"
-                        >
-                        <span class="gallery-tag">Most Popular</span>
-                        <figcaption class="gallery-caption">
-                            <h4>Labrador Retriever</h4>
-                            <p>America's most popular breed for good reason — sociable, trainable, and great with kids and other pets.</p>
-                        </figcaption>
-                    </figure>
- 
-                    <!-- Gallery Item 5 -->
-                    <figure class="gallery-item">
-                        <img
-                            src="images/breed-mixed.jpg"
-                            alt="Happy mixed-breed rescue dog with a colorful bandana from a shelter"
-                        >
-                        <span class="gallery-tag">Adopt Don't Shop</span>
-                        <figcaption class="gallery-caption">
-                            <h4>Mixed Breed Rescue</h4>
-                            <p>Shelters are full of loving dogs waiting for a home. Mixed breeds often have fewer inherited health issues.</p>
-                        </figcaption>
-                    </figure>
- 
-                    <!-- Gallery Item 6 -->
-                    <figure class="gallery-item">
-                        <img
-                            src="images/breed-corgi.jpg"
-                            alt="Pembroke Welsh Corgi smiling and running in a grassy park"
-                        >
-                        <span class="gallery-tag">Small & Spirited</span>
-                        <figcaption class="gallery-caption">
-                            <h4>Pembroke Welsh Corgi</h4>
-                            <p>Big personality in a small package — intelligent, herding-instinct driven, and hilariously entertaining.</p>
-                        </figcaption>
-                    </figure>
- 
-                </div><!-- /.gallery-grid -->
+          <div class="quiz-question active" id="q1">
+            <h3>1. How would you describe your daily activity level?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-tags="lowenergy,apartment,calm">🛋️ Mostly relaxed — I enjoy quiet days at home</button>
+              <button class="quiz-option" data-tags="moderateenergy,yard">🚶 Moderate — daily walks and occasional outdoor time</button>
+              <button class="quiz-option" data-tags="highenergy,active,yard">🏃 Active — I run, hike, or exercise most days</button>
+              <button class="quiz-option" data-tags="highenergy,active,outdoorsy,yard">⛰️ Very active — I want a dog to keep up with me on adventures</button>
             </div>
-        </section>
-
-    </main>
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>About Canine Care Central</h3>
-                    <ul class="footer-links">
-                        <li><a href="about.html">Our Mission</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>Resources</h3>
-                    <ul class="footer-links">
-                    <li><a href="Omotoso_Isaac_Health.html">Health</a></li>
-                    <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
-                    <li><a href="Omotoso_Isaac_Breeds.html">Breeds</a></li>
-                    <li><a href="Omotoso_Isaac_Shop.html">Shop</a></li>
-                    <li><a href="Omotoso_Isaac_Contact.html" class="current" aria-current="page">Contact</a></li>
-                    </ul>
-                </div>
-
+          </div>
+ 
+          <div class="quiz-question" id="q2">
+            <h3>2. What does your living situation look like?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-tags="apartment,lowenergy,smallspace">🏙️ Apartment or condo — no outdoor space</button>
+              <button class="quiz-option" data-tags="smallyard,moderateenergy">🏡 House with a small yard</button>
+              <button class="quiz-option" data-tags="yard,moderateenergy,highenergy">🏠 House with a large yard</button>
+              <button class="quiz-option" data-tags="rural,highenergy,active,outdoorsy">🌾 Rural or large property — lots of open space</button>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Canine Care Central. All rights reserved. | Last Updated: February 2026</p>
+          </div>
+ 
+          <div class="quiz-question" id="q3">
+            <h3>3. Who does the dog need to get along with?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-tags="familyfriendly,kids,gentle">👨‍👩‍👧 Family with young children</button>
+              <button class="quiz-option" data-tags="companionable,calm">🧑 Single person or couple — no kids</button>
+              <button class="quiz-option" data-tags="goodwithpets,social">🐈 We already have other pets</button>
+              <button class="quiz-option" data-tags="familyfriendly,social,goodwithpets">🏘️ Multi-person household with kids and other animals</button>
             </div>
+          </div>
+ 
+          <div class="quiz-question" id="q4">
+            <h3>4. What's your experience level with dogs?</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-tags="firsttime,easy,gentle,lowmaintenance">🐾 First-time owner — I want an easy, forgiving breed</button>
+              <button class="quiz-option" data-tags="someexperience,trainable">📚 Some experience — I've had a dog before</button>
+              <button class="quiz-option" data-tags="experienced,intelligent,trainable">🏆 Experienced — I enjoy training and mental challenges</button>
+              <button class="quiz-option" data-tags="experienced,working,highenergy,intelligent">🎖️ Very experienced — I've worked with demanding breeds</button>
+            </div>
+          </div>
+ 
+          <div class="quiz-nav" id="quizNav">
+            <button class="quiz-back-btn" id="quizBack" disabled>← Back</button>
+            <span class="quiz-step-indicator" id="stepIndicator">Step 1 of 4</span>
+            <button class="quiz-next-btn" id="quizNext" disabled>Next →</button>
+          </div>
+ 
+          <div class="quiz-results" id="quizResults">
+            <p class="results-heading">Your Best Matches</p>
+            <h3 class="results-title" id="resultsTitle"></h3>
+            <p class="results-description" id="resultsDescription"></p>
+            <div class="breed-matches" id="breedMatches"></div>
+            <button class="quiz-restart-btn" id="quizRestart">↩ Retake the Quiz</button>
+          </div>
         </div>
-    </footer>
-    <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainNav = document.querySelector('.main-nav');
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('active'));
-        });
-    </script>
+      </div>
+    </section>
+ 
+    <section class="featured-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Breed & Adoption Resources</h2>
+          <p>Everything you need to find your perfect match</p>
+        </div>
+        <div class="article-grid">
+          <article class="article-card">
+            <div class="article-image" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);height:200px;"></div>
+            <div class="article-content">
+              <span class="article-category">Breed Guide</span>
+              <h3>Finding the Right Breed</h3>
+              <p class="article-excerpt">Comprehensive guide to choosing a breed that matches your lifestyle, home, and family.</p>
+              <a href="#" class="read-more">Read More</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-image" style="background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%);height:200px;"></div>
+            <div class="article-content">
+              <span class="article-category">Adoption</span>
+              <h3>Adoption Checklist</h3>
+              <p class="article-excerpt">Everything you need to prepare before bringing your new dog home.</p>
+              <a href="#" class="read-more">Read More</a>
+            </div>
+          </article>
+          <article class="article-card">
+            <div class="article-image" style="background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%);height:200px;"></div>
+            <div class="article-content">
+              <span class="article-category">Popular Breeds</span>
+              <h3>Top Family-Friendly Breeds</h3>
+              <p class="article-excerpt">Best dog breeds for families with children, including temperament and care requirements.</p>
+              <a href="#" class="read-more">Read More</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+ 
+    <section class="gallery-section" aria-labelledby="gallery-heading">
+      <div class="container">
+        <h2 class="section-title" id="gallery-heading">Breed Spotlight</h2>
+        <p class="gallery-intro">Every dog breed has a unique personality, energy level, and set of care needs. Hover over any photo for a quick breed profile.</p>
+        <div class="gallery-grid">
+          <figure class="gallery-item">
+            <img src="images/breed-golden.jpg" alt="Golden Retriever sitting outdoors with a friendly expression">
+            <span class="gallery-tag">Family Favorite</span>
+            <figcaption class="gallery-caption"><h4>Golden Retriever</h4><p>Gentle, loyal, and endlessly patient — one of the best breeds for families with young children.</p></figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="images/breed-border-collie.jpg" alt="Border Collie in an alert herding stance in a green field">
+            <span class="gallery-tag">High Energy</span>
+            <figcaption class="gallery-caption"><h4>Border Collie</h4><p>Exceptionally intelligent and athletic — thrives with a job to do and an active owner to keep up.</p></figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="images/breed-bulldog.jpg" alt="English Bulldog relaxing on a couch looking calm and content">
+            <span class="gallery-tag">Low Energy</span>
+            <figcaption class="gallery-caption"><h4>English Bulldog</h4><p>Affectionate and low-maintenance on exercise — a great match for apartment living and calmer households.</p></figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="images/breed-lab.jpg" alt="Black Labrador Retriever playing fetch in a lake">
+            <span class="gallery-tag">Most Popular</span>
+            <figcaption class="gallery-caption"><h4>Labrador Retriever</h4><p>America's most popular breed for good reason — sociable, trainable, and great with kids and other pets.</p></figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="images/breed-mixed.jpg" alt="Happy mixed-breed rescue dog with a colorful bandana from a shelter">
+            <span class="gallery-tag">Adopt Don't Shop</span>
+            <figcaption class="gallery-caption"><h4>Mixed Breed Rescue</h4><p>Shelters are full of loving dogs waiting for a home. Mixed breeds often have fewer inherited health issues.</p></figcaption>
+          </figure>
+          <figure class="gallery-item">
+            <img src="images/breed-corgi.jpg" alt="Pembroke Welsh Corgi smiling and running in a grassy park">
+            <span class="gallery-tag">Small & Spirited</span>
+            <figcaption class="gallery-caption"><h4>Pembroke Welsh Corgi</h4><p>Big personality in a small package — intelligent, herding-instinct driven, and hilariously entertaining.</p></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+ 
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>About Canine Care Central</h3>
+          <ul class="footer-links"><li><a href="about.html">Our Mission</a></li></ul>
+        </div>
+        <div class="footer-column">
+          <h3>Resources</h3>
+          <ul class="footer-links">
+            <li><a href="Omotoso_Isaac_Health.html">Health</a></li>
+            <li><a href="Omotoso_Isaac_Training.html">Training</a></li>
+            <li><a href="Omotoso_Isaac_Breeds.html">Breeds</a></li>
+            <li><a href="Omotoso_Isaac_Shop.html">Shop</a></li>
+            <li><a href="Omotoso_Isaac_Contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Canine Care Central. All rights reserved. | Last Updated: February 2026</p>
+      </div>
+    </div>
+  </footer>
+ 
+  <script>
+    const BREEDS = [
+      { name: 'Golden Retriever',       emoji: '🦮',    trait: 'Gentle & Family-Friendly', tags: ['familyfriendly','kids','gentle','firsttime','social','moderateenergy','yard','goodwithpets','trainable'] },
+      { name: 'Labrador Retriever',     emoji: '🐕',    trait: 'Loyal & Sociable',          tags: ['familyfriendly','kids','social','trainable','moderateenergy','yard','goodwithpets','firsttime','active'] },
+      { name: 'Border Collie',          emoji: '🐕‍🦺', trait: 'Brilliant & Athletic',       tags: ['highenergy','active','intelligent','experienced','trainable','working','rural','outdoorsy'] },
+      { name: 'French Bulldog',         emoji: '🐶',    trait: 'Compact & Charming',        tags: ['apartment','lowenergy','calm','firsttime','companionable','smallspace','lowmaintenance'] },
+      { name: 'English Bulldog',        emoji: '🐾',    trait: 'Calm & Affectionate',       tags: ['apartment','lowenergy','calm','firsttime','companionable','lowmaintenance','gentle'] },
+      { name: 'Australian Shepherd',    emoji: '🐕',    trait: 'Smart & Energetic',         tags: ['highenergy','active','intelligent','experienced','trainable','yard','outdoorsy','working'] },
+      { name: 'Cavalier King Charles',  emoji: '🐶',    trait: 'Sweet & Gentle',            tags: ['apartment','gentle','firsttime','kids','familyfriendly','companionable','goodwithpets','calm'] },
+      { name: 'German Shepherd',        emoji: '🐕‍🦺', trait: 'Loyal & Protective',        tags: ['intelligent','experienced','trainable','working','highenergy','active','yard'] },
+      { name: 'Poodle',                 emoji: '🐩',    trait: 'Clever & Adaptable',        tags: ['intelligent','trainable','firsttime','someexperience','familyfriendly','goodwithpets','social','apartment','yard'] },
+      { name: 'Shih Tzu',              emoji: '🐶',    trait: 'Calm & Loving',             tags: ['apartment','lowenergy','calm','firsttime','companionable','smallspace','lowmaintenance','gentle'] },
+      { name: 'Beagle',                 emoji: '🐕',    trait: 'Curious & Friendly',        tags: ['familyfriendly','kids','firsttime','someexperience','moderateenergy','social','goodwithpets'] },
+      { name: 'Bernese Mountain Dog',   emoji: '🐕',    trait: 'Gentle Giant',              tags: ['familyfriendly','kids','gentle','yard','someexperience','goodwithpets','calm','rural'] }
+    ];
+ 
+    const TOTAL_QUESTIONS = 4;
+    let currentQuestion = 1, userTags = [];
+ 
+    const questions     = document.querySelectorAll('.quiz-question');
+    const backBtn       = document.getElementById('quizBack');
+    const nextBtn       = document.getElementById('quizNext');
+    const progressFill  = document.getElementById('progressFill');
+    const progressText  = document.getElementById('progressText');
+    const progressPct   = document.getElementById('progressPct');
+    const stepIndicator = document.getElementById('stepIndicator');
+    const quizNav       = document.getElementById('quizNav');
+    const quizResults   = document.getElementById('quizResults');
+    const quizProgressWrap = document.getElementById('quizProgressWrap');
+ 
+    function updateProgress() {
+      const pct = Math.round(((currentQuestion - 1) / TOTAL_QUESTIONS) * 100);
+      progressFill.style.width = pct + '%';
+      progressText.textContent = 'Question ' + currentQuestion + ' of ' + TOTAL_QUESTIONS;
+      progressPct.textContent  = pct + '%';
+      stepIndicator.textContent = 'Step ' + currentQuestion + ' of ' + TOTAL_QUESTIONS;
+    }
+ 
+    function getSelectedOption(n) {
+      return document.getElementById('q' + n).querySelector('.quiz-option.selected') || null;
+    }
+ 
+    function showQuestion(n) {
+      questions.forEach(function(q) { q.classList.remove('active'); });
+      document.getElementById('q' + n).classList.add('active');
+      currentQuestion = n;
+      backBtn.disabled = (n === 1);
+      nextBtn.disabled = !getSelectedOption(n);
+      nextBtn.textContent = (n === TOTAL_QUESTIONS) ? 'See Results 🐾' : 'Next →';
+      updateProgress();
+    }
+ 
+    document.querySelectorAll('.quiz-option').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        this.closest('.quiz-question').querySelectorAll('.quiz-option').forEach(function(b) { b.classList.remove('selected'); });
+        this.classList.add('selected');
+        nextBtn.disabled = false;
+      });
+    });
+ 
+    nextBtn.addEventListener('click', function() {
+      const selected = getSelectedOption(currentQuestion);
+      if (!selected) return;
+      userTags = userTags.concat(selected.dataset.tags.split(','));
+      if (currentQuestion < TOTAL_QUESTIONS) {
+        showQuestion(currentQuestion + 1);
+      } else {
+        showResults();
+      }
+    });
+ 
+    backBtn.addEventListener('click', function() {
+      if (currentQuestion > 1) {
+        userTags = [];
+        for (let i = 1; i < currentQuestion - 1; i++) {
+          const sel = getSelectedOption(i);
+          if (sel) userTags = userTags.concat(sel.dataset.tags.split(','));
+        }
+        showQuestion(currentQuestion - 1);
+      }
+    });
+ 
+    function showResults() {
+      const tagCount = {};
+      userTags.forEach(function(t) { tagCount[t] = (tagCount[t] || 0) + 1; });
+ 
+      const scored = BREEDS.map(function(breed) {
+        return { breed: breed, score: breed.tags.reduce(function(s, t) { return s + (tagCount[t] || 0); }, 0) };
+      }).sort(function(a, b) { return b.score - a.score; }).slice(0, 3);
+ 
+      document.getElementById('resultsTitle').textContent = '🎉 Great news — we found your matches!';
+      document.getElementById('resultsDescription').textContent = 'Based on your lifestyle, these breeds are likely to be a wonderful fit. Remember that individual dogs vary — always meet a dog before adopting!';
+ 
+      const container = document.getElementById('breedMatches');
+      container.innerHTML = '';
+      scored.forEach(function(item) {
+        const card = document.createElement('div');
+        card.className = 'breed-match-card';
+        card.innerHTML = '<span class="breed-match-emoji">' + item.breed.emoji + '</span>' +
+                         '<span class="breed-match-name">'  + item.breed.name  + '</span>' +
+                         '<span class="breed-match-trait">' + item.breed.trait + '</span>';
+        container.appendChild(card);
+      });
+ 
+      questions.forEach(function(q) { q.classList.remove('active'); });
+      quizNav.style.display = 'none';
+      quizProgressWrap.style.display = 'none';
+      quizResults.classList.add('visible');
+    }
+ 
+    document.getElementById('quizRestart').addEventListener('click', function() {
+      document.querySelectorAll('.quiz-option').forEach(function(btn) { btn.classList.remove('selected'); });
+      userTags = [];
+      quizResults.classList.remove('visible');
+      quizNav.style.display = '';
+      quizProgressWrap.style.display = '';
+      showQuestion(1);
+    });
+ 
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    if (menuToggle) {
+      menuToggle.addEventListener('click', function() {
+        mainNav.classList.toggle('active');
+        menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('active'));
+      });
+    }
+ 
+    updateProgress();
+    nextBtn.disabled = true;
+  </script>
 </body>
 </html>
